@@ -35,7 +35,7 @@
   }
   
   .game-cell {
-    @apply w-6 h-6 flex items-center justify-center;
+    @apply w-6 h-6 flex items-center justify-center min-w-[24px] min-h-[24px];
   }
   
   .player {
