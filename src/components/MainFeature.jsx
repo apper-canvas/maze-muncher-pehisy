@@ -352,30 +352,53 @@ function MainFeature({ setHighScore }) {
     const ghostAtCell = ghosts.find(ghost => ghost.position.x === x && ghost.position.y === y && !ghost.isEaten);
     
     if (isPlayerCell) {
+      // Render Pacman
+      let rotationClass = "";
+      switch(playerDirection) {
+        case 'up': rotationClass = "rotate-270"; break;
+        case 'down': rotationClass = "rotate-90"; break;
+        case 'left': rotationClass = "-scale-x-100"; break;
+        default: rotationClass = ""; break;
+      }
+      
       return (
-        <div className={`player w-3 h-3 md:w-4 md:h-4 ${playerDirection === 'left' ? '-scale-x-100' : ''} animate-chomp`}>
-          {playerDirection === 'up' ? (
-            <div className="w-full h-full bg-primary rounded-full border-t-[6px] border-t-black rotate-270"></div>
-          ) : playerDirection === 'down' ? (
-            <div className="w-full h-full bg-primary rounded-full border-b-[6px] border-b-black rotate-90"></div>
-          ) : (
-            <div className="w-full h-full bg-primary rounded-full border-r-[6px] border-r-black"></div>
-          )}
-        </div>
+        <div className={`w-5 h-5 bg-primary rounded-full ${rotationClass}`} style={{
+          clipPath: playerDirection === 'up' || playerDirection === 'down' 
+            ? 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' 
+            : 'polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%)'
+        }}></div>
       );
     } else if (ghostAtCell) {
-      const ghostColor = isPoweredUp ? 'bg-game-ghost-frightened animate-pulse' : `bg-game-ghost-${ghostAtCell.type}`;
+      // Render Ghost
+      const ghostColorClass = isPoweredUp 
+        ? "bg-blue-700" 
+        : `bg-game-ghost-${ghostAtCell.type}`;
+      
       return (
-        <div className={`ghost w-3 h-3 md:w-4 md:h-4 ${ghostColor}`}></div>
+        <div className={`w-5 h-5 ${ghostColorClass} relative`} style={{
+          borderRadius: '50% 50% 0 0',
+          position: 'relative'
+        }}>
+          {/* Ghost eyes */}
+          <div className="absolute top-1 left-1 w-1 h-1 bg-white rounded-full"></div>
+          <div className="absolute top-1 right-1 w-1 h-1 bg-white rounded-full"></div>
+          
+          {/* Ghost "skirt" */}
+          <div className="absolute bottom-0 w-full flex">
+            <div className="w-1/3 h-1 bg-black rounded-full transform -translate-y-0.5"></div>
+            <div className="w-1/3 h-1 bg-black rounded-full transform -translate-y-0.5"></div>
+            <div className="w-1/3 h-1 bg-black rounded-full transform -translate-y-0.5"></div>
+          </div>
+        </div>
       );
     } else {
       switch (cellType) {
         case 0: // Wall
-          return <div className="w-full h-full bg-game-wall"></div>;
+          return <div className="w-full h-full bg-game-wall rounded-sm"></div>;
         case 2: // Dot
-          return <div className="w-1 h-1 md:w-2 md:h-2 bg-game-dot rounded-full"></div>;
+          return <div className="w-2 h-2 bg-game-dot rounded-full"></div>;
         case 3: // Power Pellet
-          return <div className="w-2 h-2 md:w-3 md:h-3 bg-game-powerPellet rounded-full animate-pulse"></div>;
+          return <div className="w-3 h-3 bg-game-powerPellet rounded-full animate-pulse"></div>;
         default:
           return null;
       }
