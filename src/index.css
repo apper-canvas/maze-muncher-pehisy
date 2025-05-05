@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import 'react-toastify/dist/ReactToastify.css';
+
+@layer base {
+  html {
+    @apply h-full;
+  }
+  
+  body {
+    @apply h-full bg-black text-white font-sans;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+  
+  #root {
+    @apply h-full;
+  }
+}
+
+@layer components {
+  .arcade-btn {
+    @apply inline-flex items-center justify-center px-6 py-3 text-lg font-heading
+    bg-primary text-black border-b-4 border-primary-dark
+    hover:brightness-110 active:border-b-0 active:border-t-4 active:translate-y-[2px]
+    transition-all duration-100 rounded-md;
+  }
+  
+  .arcade-btn-secondary {
+    @apply arcade-btn bg-secondary border-secondary-dark text-white;
+  }
+  
+  .game-cell {
+    @apply w-6 h-6 flex items-center justify-center;
+  }
+  
+  .player {
+    @apply bg-primary rounded-full;
+  }
+  
+  .ghost {
+    @apply rounded-t-full;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .text-shadow {
+    text-shadow: 0 0 5px rgba(255, 204, 0, 0.7), 
+                 0 0 10px rgba(255, 204, 0, 0.5);
+  }
+  
+  .neon-text {
+    text-shadow: 0 0 5px #FFCC00, 
+                 0 0 10px #FFCC00, 
+                 0 0 15px #FFCC00, 
+                 0 0 20px #FFCC00;
+  }
+}
